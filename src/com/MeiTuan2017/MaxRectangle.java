@@ -1,34 +1,37 @@
 package com.MeiTuan2017;
 
+import java.util.Stack;
+
 public class MaxRectangle {
-	static int maxS = 0;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int[] mat = new int[]{2,1,5,6,2,3};
-		int begin = 0;
-		int end = mat.length-1;
-		cal(mat,begin,end);
-		System.out.println(maxS);
+		System.out.println(largestRectangleArea(mat));
 	}
 
-	private static void cal(int[] mat,int b,int e){
-		if(b==e){
-			if(mat[b]>maxS)
-				maxS = mat[b];
-			return;
-		}else{
-			int min = mat[b];
-	        int minpos = b;
-	        for(int i=0;i<mat.length;i++){
-				if(mat[i]<min){
-					min = mat[i];
-					minpos = i;
-				}
-			}
-	        if(min*(e-b+1)>maxS)
-	        	maxS=min*(e-b+1);
-	        cal(mat,b,minpos-1);
-	        cal(mat,minpos+1,e);
-		}
-	}
+	public static int largestRectangleArea(int[] height) {
+        Stack<Integer> s = new Stack<>();
+        int max_area = 0; // 最大矩形面积
+        int tp; // 栈顶
+        int area_with_top;
+
+        int i = 0;
+        int n = height.length;
+        while (i < n) {
+            if (s.empty() || height[s.peek()] <= height[i]) {
+                s.push(i++);
+            } else {
+                tp = s.pop();
+                area_with_top = height[tp] * (s.empty() ? i : i - s.peek() - 1);
+                max_area = Math.max(max_area, area_with_top);
+            }
+        }
+
+        while (!s.empty()) {
+            tp = s.pop();
+            area_with_top = height[tp] * (s.empty() ? i : i - s.peek() - 1);
+            max_area = Math.max(max_area, area_with_top);
+        }
+        return max_area;
+    }
 }
