@@ -13,8 +13,10 @@ public class testJava{
         stack1.push(node);
     }
     
-    public int pop() {
-    	while(stack1.)
+    public void pop() {
+    	while(stack1.isEmpty()){
+    		;
+    	}
     }
 }
 
